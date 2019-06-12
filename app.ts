@@ -5,6 +5,8 @@ import helmet = require("helmet");
 import mongoose = require("mongoose");
 import path = require("path");
 
+import createIo = require("./src/sockets");
+
 dotenv.config();
 
 mongoose.Promise = global.Promise;
@@ -29,7 +31,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "dist")));
 
-const port: number = Number(process.env.SERVER_PORT) || 3000;
+createIo(app);
+
+const port: (string | number) = process.env.SERVER_PORT || 3000;
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
