@@ -51,10 +51,8 @@ module.exports = {
       historyApiFallback: true,
       port: 5000,
       proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          changeOrigin: true
-        }
+        context: ['/api', '/socket'],
+        target: 'http://localhost:3000'
       }
     },
     externals: {

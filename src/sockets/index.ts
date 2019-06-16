@@ -2,13 +2,14 @@ import express = require("express");
 import http = require("http");
 import socketIO = require("socket.io");
 
-module.exports = function createIo(app: express.Application): void {
-  const server: http.Server = http.createServer(app);
-  const io: socketIO.Server = socketIO(server);
+export function createIo(server: http.Server): void {
+  const io: socketIO.Server = socketIO.listen(server);
+  io.origins("http://localhost:5000");
+  const nsp: socketIO.Namespace = io.of("/socket");
 
-  io.on("connection", (client) => {
+  nsp.on("connection", (client) => {
     client.on("request", (str: string) => {
       client.emit("response", str.toUpperCase());
     });
   });
-};
+}

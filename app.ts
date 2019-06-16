@@ -2,10 +2,11 @@ import bodyParser = require("body-parser");
 import dotenv = require("dotenv");
 import express = require("express");
 import helmet = require("helmet");
+import http = require("http");
 import mongoose = require("mongoose");
 import path = require("path");
 
-import createIo = require("./src/sockets");
+import { createIo } from "./src/sockets/index";
 
 dotenv.config();
 
@@ -23,6 +24,9 @@ mongoose.Promise = global.Promise;
 })();
 
 const app: express.Application = express();
+const server: http.Server = http.createServer(app);
+
+createIo(server);
 
 app.use(helmet());
 
@@ -31,9 +35,5 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "dist")));
 
-createIo(app);
-
 const port: (string | number) = process.env.SERVER_PORT || 3000;
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+server.listen(port, () => console.log(`Listening on port ${port}`));

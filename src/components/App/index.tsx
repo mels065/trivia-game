@@ -6,11 +6,7 @@ import "./style.scss";
 export function App(): JSX.Element {
   const [message, changeMessage] = React.useState("Hello World");
 
-  const socket: SocketIOClient.Socket = io(
-    process && process.env && process.env.NODE_ENV === "developoment" ?
-      "http://localhost:3000" :
-      "",
-  );
+  const socket: SocketIOClient.Socket = io("/socket");
   socket.on("response", (str: string) => {
     changeMessage(str);
   });
@@ -18,7 +14,7 @@ export function App(): JSX.Element {
   React.useEffect((): void => {
     setTimeout(() => {
       socket.emit("request", "Goodbye World");
-    });
+    }, 5000);
   });
 
   return (
