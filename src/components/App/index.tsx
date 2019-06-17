@@ -19,7 +19,7 @@ export function App(): JSX.Element {
 
   return (
       <div id="App">
-        {message}
+        {message}!
       </div>
   );
 }
