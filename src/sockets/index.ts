@@ -4,7 +4,7 @@ import socketIO = require("socket.io");
 
 export function createIo(server: http.Server): void {
   const io: socketIO.Server = socketIO.listen(server);
-  io.origins("http://localhost:5000");
+  io.origins("*:*");
   const nsp: socketIO.Namespace = io.of("/socket");
 
   nsp.on("connection", (client) => {
