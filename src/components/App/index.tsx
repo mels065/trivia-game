@@ -3,7 +3,7 @@ import * as io from "socket.io-client";
 
 import "./style.scss";
 
-export function App(): JSX.Element {
+export default function App(): JSX.Element {
   const [message, changeMessage] = React.useState("Hello World");
 
   const socket: SocketIOClient.Socket = io("/socket");
@@ -18,7 +18,7 @@ export function App(): JSX.Element {
   });
 
   return (
-      <div id="App">
+      <div id="App" data-testid="app">
         {message}!
       </div>
   );
