@@ -6,7 +6,7 @@ import http = require("http");
 import mongoose = require("mongoose");
 import path = require("path");
 
-import { createIo } from "./src/sockets/index";
+import { createIo } from "./src/sockets";
 
 dotenv.config();
 

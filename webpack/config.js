@@ -1,4 +1,5 @@
 // https://www.typescriptlang.org/docs/handbook/react-&-webpack.html
+const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
@@ -10,7 +11,10 @@ module.exports = {
     },
 
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".json"]
+        extensions: [".ts", ".tsx", ".js", ".json"],
+        plugins: [
+          new TsConfigPathsPlugin()
+        ]
     },
 
     module: {
