@@ -18,7 +18,7 @@ export default function App(): JSX.Element {
   });
 
   return (
-      <div id="App" data-testid="app">
+      <div id="App">
         {message}!
       </div>
   );
