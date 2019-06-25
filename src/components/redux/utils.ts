@@ -1,6 +1,5 @@
 // For generating action types for thunks
 
-export const createActionNext = (action: string) => `${action}_NEXT`;
-export const createActionComplete = (action: string) => `${action}_COMPLETE`;
-export const createActionError = (action: string) => `${action}_ERROR`;
-export const createActionCancel = (action: string) => `${action}_CANCEL`;
+export const createActionPending = (action: string) => `${action}_PENDING`;
+export const createActionFulfilled = (action: string) => `${action}_FULFILLED`;
+export const createActionRejected = (action: string) => `${action}_REJECTED`;

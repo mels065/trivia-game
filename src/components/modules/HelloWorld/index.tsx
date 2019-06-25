@@ -2,8 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { IHelloWorldStateShape } from "../../redux/HelloWorld";
-import { changeText, changeTextAsync } from "../../redux/HelloWorld";
+import { changeText, changeTextAsync } from "../../redux/HelloWorld/actions";
+import { IHelloWorldStateShape } from "../../redux/HelloWorld/interfaces";
 
 interface IHelloWorldProps {
   error: Error | null;
@@ -18,7 +18,7 @@ function HelloWorld(props: IHelloWorldProps): JSX.Element {
 
   return (
     <div className="hello-world">
-      <div className="status">{isLoading ? "LOADING..." : error}</div>
+      <div className="status">{isLoading ? "LOADING..." : (error ? error.message : null)}</div>
       <div className="text">{text}</div>
 
       <button className="btn-change-text" onClick={handleChangeTextClick}>Change Text</button>
@@ -37,8 +37,8 @@ export default connect(
   ),
   (dispatch: Dispatch) => (
     {
+      handleChangeTextAsyncClick: () => dispatch(changeTextAsync(null)),
       handleChangeTextClick: () => dispatch(changeText("Oh Hai, Mark!")),
-      handleChangeTextAsyncClick: () => changeTextAsync("I did NAUGHT")(dispatch),
     }
   )
 )(HelloWorld);
