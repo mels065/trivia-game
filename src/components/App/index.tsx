@@ -2,7 +2,7 @@ import * as React from "react";
 import { Switch, Route } from "react-router-dom";
 
 import Layout from "../Layouts";
-import { AboutView, HomeView } from "../views";
+import { AboutView, HomeView, NotFound } from "../views";
 
 import "./style.scss";
 
@@ -15,6 +15,7 @@ export default function App(): JSX.Element {
         <Switch>
           <Route exact={true} path="/" component={HomeView} />
           <Route exact={true} path="/about" component={AboutView} />
+          <Route component={NotFound} />
         </Switch>
       </Layout>
     </div>
