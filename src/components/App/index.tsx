@@ -1,4 +1,8 @@
 import * as React from "react";
+import { Switch, Route } from "react-router-dom";
+
+import Layout from "../Layouts";
+import { AboutView, HomeView } from "../views";
 
 import "./style.scss";
 
@@ -7,7 +11,12 @@ import HelloWorld from "../modules/HelloWorld";
 export default function App(): JSX.Element {
   return (
     <div id="App">
-      <HelloWorld />
+      <Layout>
+        <Switch>
+          <Route exact={true} path="/" component={HomeView} />
+          <Route exact={true} path="/about" component={AboutView} />
+        </Switch>
+      </Layout>
     </div>
   );
 }

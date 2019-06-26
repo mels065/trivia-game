@@ -5,14 +5,14 @@ import { Dispatch } from "redux";
 import { changeText, changeTextAsync } from "../../redux/HelloWorld/actions";
 import { IHelloWorldStateShape } from "../../redux/HelloWorld/interfaces";
 
-interface IHelloWorldProps {
+interface IProps {
   error: Error | null;
   isLoading: boolean;
   text: string;
   handleChangeTextClick: () => void;
   handleChangeTextAsyncClick: () => void;
 }
-function HelloWorld(props: IHelloWorldProps): JSX.Element {
+function HelloWorld(props: IProps): JSX.Element {
   const { error, isLoading, text } = props;
   const { handleChangeTextClick, handleChangeTextAsyncClick } = props;
 
