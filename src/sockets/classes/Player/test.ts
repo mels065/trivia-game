@@ -3,13 +3,13 @@ import { mock, when } from "ts-mockito";
 
 import { Answer } from "../../../enums";
 
-import PlayerClass from "./index";
+import Player from "./index";
 
 describe("PlayerClass", () => {
     const displayName = "John Doe";
-    let player: PlayerClass;
+    let player: Player;
     beforeEach(() => {
-        player = new PlayerClass(displayName);
+        player = new Player(displayName);
     });
 
     it("has a public `displayName`", () => {
@@ -35,7 +35,7 @@ describe("PlayerClass", () => {
         expect(player.getScore()).to.equal(3);
     });
 
-    it.skip("has `currentAnswer` property that can be either null or the enum Answer", () => {
+    it("has `currentAnswer` property that can be either null or the enum Answer", () => {
         expect(player.currentAnswer).to.equal(null);
 
         player.currentAnswer = Answer.B;

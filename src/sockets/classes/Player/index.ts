@@ -1,6 +1,6 @@
 import { Answer } from "../../../enums";
 
-export default class PlayerClass {
+export default class Player {
     public displayName: string;
     public ready: boolean;
     public currentAnswer: Answer | null;
@@ -10,6 +10,7 @@ export default class PlayerClass {
     constructor(displayName: string) {
         this.displayName = displayName;
         this.ready = false;
+        this.currentAnswer = null;
 
         this.score = 0;
     }
