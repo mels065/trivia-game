@@ -1,13 +1,17 @@
 import { Answer } from "../../../enums";
 
 export default class Player {
+    readonly id: number;
+
     public displayName: string;
     public ready: boolean;
     public currentAnswer: Answer | null;
 
     private score: number;
 
-    constructor(displayName: string) {
+    constructor(id: number, displayName: string) {
+        this.id = id;
+
         this.displayName = displayName;
         this.ready = false;
         this.currentAnswer = null;

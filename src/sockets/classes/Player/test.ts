@@ -6,10 +6,11 @@ import { Answer } from "../../../enums";
 import Player from "./index";
 
 describe("PlayerClass", () => {
+    const id = 0;
     const displayName = "John Doe";
     let player: Player;
     beforeEach(() => {
-        player = new Player(displayName);
+        player = new Player(id, displayName);
     });
 
     it("has a public `displayName`", () => {
@@ -40,5 +41,9 @@ describe("PlayerClass", () => {
 
         player.currentAnswer = Answer.B;
         expect(player.currentAnswer).to.equal(Answer.B);
+    });
+
+    it("has a readonly `index` assigned at beginning", () => {
+        expect(player.id).to.equal(id);
     });
 });
