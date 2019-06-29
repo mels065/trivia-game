@@ -1,4 +1,4 @@
-import shortid from "shortid";
+import shortid = require("shortid");
 
 export default class GameSession {
     public static sessions: {
@@ -8,4 +8,6 @@ export default class GameSession {
     constructor() {
         GameSession.sessions[shortid()] = this;
     }
+
+    public destroy(): void {}
 }
