@@ -1,16 +1,22 @@
+import axios, { AxiosStatic } from "axios";
+import MockAdapter from "axios-mock-adapter";
 import { expect } from "chai";
 import * as shortid from "shortid";
-import { mock, reset } from "ts-mockito";
+import { mock, reset, verify, when } from "ts-mockito";
 
 import Player from "../Player";
 import GameSession from "./index";
 
+import { Difficulty } from "../../../enums";
+
 describe("GameSession class", () => {
     let gameSession: GameSession;
     let mockedPlayer: Player;
+    let mockedAxios: MockAdapter;
 
     beforeEach(() => {
         mockedPlayer = mock(Player);
+        mockedAxios = new MockAdapter(axios);
 
         GameSession.sessions = {};
         gameSession = new GameSession();
@@ -18,7 +24,8 @@ describe("GameSession class", () => {
 
     afterEach(() => {
         reset(mockedPlayer);
-    })
+        mockedAxios.restore();
+    });
 
     it("has a static object of all game sessions", () => {
         expect(Object.keys(GameSession.sessions).length).to.equal(1);
@@ -47,8 +54,39 @@ describe("GameSession class", () => {
         expect(Object.keys(GameSession.sessions).length).to.equal(0);
     });
 
-    it.skip("has a question array that makes an API call to OpenTriviaDB to retrieve them", () => {
-        // CODE
+    it("has a question array that makes an API call to OpenTriviaDB to retrieve them", async () => {
+        expect(gameSession.questions).to.have.lengthOf(0);
+
+        const response = {
+            results: [
+                {
+                    correct_answer: "66",
+                    incorrect_answers: ["67", "34", "11"],
+                    question: "In a complete graph G, which has 12 vertices, how many edges are there?",
+                },
+            ]
+        };
+        mockedAxios.onGet(
+            "https://opentdb.com/api.php?amount=20&difficulty=medium&type=multiple",
+        )
+            .reply(
+                200,
+                response,
+            )
+        await gameSession.fetchQuestions(20, Difficulty.Medium);
+
+        const { answers, correctAnswer, question } = gameSession.questions[0];
+        expect(question).to.equal(
+            "In a complete graph G, which has 12 vertices, how many edges are there?",
+        );
+
+        const answerValues = Object.values(answers);
+        expect(answerValues).to.include("66");
+        expect(answerValues).to.include("67");
+        expect(answerValues).to.include("34");
+        expect(answerValues).to.include("11");
+
+        expect(answers[correctAnswer]).to.equal("66");
     });
 
     it.skip("has a questionIndex that increments for the next question", () => {
