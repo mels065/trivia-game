@@ -1,8 +1,8 @@
 export enum Answer {
-    A,
-    B,
-    C,
-    D,
+    A = "A",
+    B = "B",
+    C = "C",
+    D = "D",
 }
 
 export enum Difficulty {

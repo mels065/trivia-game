@@ -12,13 +12,15 @@ export interface IQuestionJSON {
     };
 }
 
+export interface IQuestionOrder {
+    [Answer.A]: string;
+    [Answer.B]: string;
+    [Answer.C]: string;
+    [Answer.D]: string;
+}
+
 export interface IQuestionData {
-    answers: {
-        [Answer.A]: string,
-        [Answer.B]: string,
-        [Answer.C]: string,
-        [Answer.D]: string,
-    };
+    answers: IQuestionOrder;
     correctAnswer: Answer;
     question: string;
 }

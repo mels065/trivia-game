@@ -1,9 +1,10 @@
 import axios from "axios";
-import shortid = require("shortid");
+import * as _ from "lodash";
+import * as shortid from "shortid";
 import Player from "../Player";
 
 import { Answer, Difficulty } from "../../../enums";
-import { IQuestionData, IQuestionJSON } from "../../../interface";
+import { IQuestionData, IQuestionOrder, IQuestionJSON } from "../../../interface";
 
 export default class GameSession {
     public static sessions: {
@@ -19,6 +20,7 @@ export default class GameSession {
     // Keeps track of the number of players that have joined since the session
     // was created
     private totalPlayersJoined: number;
+    private questionIndex: number;
 
     constructor() {
         this.id = shortid();
@@ -28,6 +30,7 @@ export default class GameSession {
         this.questions = [];
 
         this.totalPlayersJoined = 0;
+        this.questionIndex = 0;
     }
 
     public async fetchQuestions(questionCount: number, difficulty: Difficulty): Promise<void> {
@@ -35,18 +38,31 @@ export default class GameSession {
             `https://opentdb.com/api.php?amount=${questionCount}&difficulty=${difficulty}&type=multiple`,
         ));
 
-        this.questions.push(...results.map((data) => (
-            {
-                answers: {
-                    [Answer.A]: data.correct_answer,
-                    [Answer.B]: data.incorrect_answers[0],
-                    [Answer.C]: data.incorrect_answers[1],
-                    [Answer.D]: data.incorrect_answers[2],
-                },
-                correctAnswer: Answer.D,
-                question: data.question,
+        this.questions.push(...results.map((data) => {
+            const { correct_answer, incorrect_answers, question } = data;
+            const answerStrings: string[] = _.shuffle(
+                [correct_answer, ...incorrect_answers]
+            );
+            const correctAnswer: Answer = [
+                Answer.A,
+                Answer.B,
+                Answer.C,
+                Answer.D,
+            ][answerStrings.indexOf(correct_answer)]
+
+            const answers: IQuestionOrder = {
+                [Answer.A]: answerStrings[0],
+                [Answer.B]: answerStrings[1],
+                [Answer.C]: answerStrings[2],
+                [Answer.D]: answerStrings[3],
             }
-        )));
+
+            return {
+                answers,
+                correctAnswer,
+                question,
+            }
+        }));
     }
 
     public addPlayer(player: Player): void {
@@ -59,6 +75,14 @@ export default class GameSession {
         if (Object.keys(this.players).length === 0) {
             this.destroy();
         }
+    }
+
+    public nextQuestion(): (IQuestionData | null) {
+        if (this.questionIndex < this.questions.length) {
+            return this.questions[this.questionIndex++];
+        }
+
+        return null;
     }
 
     public destroy(): void {

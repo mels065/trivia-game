@@ -1,6 +1,6 @@
 import axios, { AxiosStatic } from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { expect } from "chai";
+import { assert, expect } from "chai";
 import * as shortid from "shortid";
 import { mock, reset, verify, when } from "ts-mockito";
 
@@ -20,6 +20,28 @@ describe("GameSession class", () => {
 
         GameSession.sessions = {};
         gameSession = new GameSession();
+
+        const response = {
+            results: [
+                {
+                    correct_answer: "66",
+                    incorrect_answers: ["67", "34", "11"],
+                    question: "In a complete graph G, which has 12 vertices, how many edges are there?",
+                },
+                {
+                    correct_answer: "July 2, 1776",
+                    incorrect_answers: ["May 4, 1776", "June 4, 1776", "July 4, 1776"],
+                    question: "When was the Declaration of Independence approved by the Second Continental Congress?",
+                },
+            ],
+        };
+        mockedAxios.onGet(
+            "https://opentdb.com/api.php?amount=20&difficulty=medium&type=multiple",
+        )
+            .reply(
+                200,
+                response,
+            );
     });
 
     afterEach(() => {
@@ -57,22 +79,6 @@ describe("GameSession class", () => {
     it("has a question array that makes an API call to OpenTriviaDB to retrieve them", async () => {
         expect(gameSession.questions).to.have.lengthOf(0);
 
-        const response = {
-            results: [
-                {
-                    correct_answer: "66",
-                    incorrect_answers: ["67", "34", "11"],
-                    question: "In a complete graph G, which has 12 vertices, how many edges are there?",
-                },
-            ]
-        };
-        mockedAxios.onGet(
-            "https://opentdb.com/api.php?amount=20&difficulty=medium&type=multiple",
-        )
-            .reply(
-                200,
-                response,
-            )
         await gameSession.fetchQuestions(20, Difficulty.Medium);
 
         const { answers, correctAnswer, question } = gameSession.questions[0];
@@ -89,8 +95,22 @@ describe("GameSession class", () => {
         expect(answers[correctAnswer]).to.equal("66");
     });
 
-    it.skip("has a questionIndex that increments for the next question", () => {
-        // CODE
+    it("can increment to next question until all questions are gone", async () => {
+        await gameSession.fetchQuestions(20, Difficulty.Medium);
+
+        assert.equal(
+            gameSession.nextQuestion().question,
+            "In a complete graph G, which has 12 vertices, how many edges are there?",
+            "Gets first question",
+        );
+
+        assert.equal(
+            gameSession.nextQuestion().question,
+            "When was the Declaration of Independence approved by the Second Continental Congress?",
+            "Gets second question",
+        );
+
+        assert.isNull(gameSession.nextQuestion(), "No more questions, so return null");
     });
 
     it.skip("has a mode that takes enum Mode to keep track of game mode", () => {
