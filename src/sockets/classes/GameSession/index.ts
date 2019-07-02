@@ -3,7 +3,7 @@ import * as _ from "lodash";
 import * as shortid from "shortid";
 import Player from "../Player";
 
-import { Answer, Difficulty } from "../../../enums";
+import { Answer, Difficulty, GameMode } from "../../../enums";
 import { IQuestionData, IQuestionOrder, IQuestionJSON } from "../../../interface";
 
 export default class GameSession {
@@ -19,6 +19,7 @@ export default class GameSession {
 
     // Keeps track of the number of players that have joined since the session
     // was created
+    private mode: GameMode;
     private totalPlayersJoined: number;
     private questionIndex: number;
 
@@ -29,6 +30,7 @@ export default class GameSession {
         this.players = [];
         this.questions = [];
 
+        this.mode = GameMode.LOBBY;
         this.totalPlayersJoined = 0;
         this.questionIndex = 0;
     }
@@ -77,12 +79,24 @@ export default class GameSession {
         }
     }
 
+    public getMode(): GameMode {
+        return this.mode;
+    }
+
+    public setMode(newMode: GameMode): void {
+        this.mode = newMode;
+    }
+
     public nextQuestion(): (IQuestionData | null) {
-        if (this.questionIndex < this.questions.length) {
+        if (!this.isGameFinished()) {
             return this.questions[this.questionIndex++];
         }
 
         return null;
+    }
+
+    public isGameFinished(): boolean {
+        return this.questionIndex >= this.questions.length;
     }
 
     public destroy(): void {

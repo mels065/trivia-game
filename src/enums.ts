@@ -10,3 +10,9 @@ export enum Difficulty {
     Medium = "medium",
     Hard = "hard",
 }
+
+export enum GameMode {
+    LOBBY = "LOBBY",
+    PLAYING = "PLAYING",
+    RESULTS = "RESULTS",
+}

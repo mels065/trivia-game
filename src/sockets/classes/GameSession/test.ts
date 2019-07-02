@@ -7,7 +7,7 @@ import { mock, reset, verify, when } from "ts-mockito";
 import Player from "../Player";
 import GameSession from "./index";
 
-import { Difficulty } from "../../../enums";
+import { Difficulty, GameMode } from "../../../enums";
 
 describe("GameSession class", () => {
     let gameSession: GameSession;
@@ -113,15 +113,28 @@ describe("GameSession class", () => {
         assert.isNull(gameSession.nextQuestion(), "No more questions, so return null");
     });
 
-    it.skip("has a mode that takes enum Mode to keep track of game mode", () => {
-        // CODE
+    it("has a mode that takes enum Mode to keep track of game mode", () => {
+        assert.equal(
+            gameSession.getMode(),
+            GameMode.LOBBY,
+            "Defaults to `LOBBY`",
+        );
+
+        gameSession.setMode(GameMode.PLAYING);
+        assert.equal(
+            gameSession.getMode(),
+            GameMode.PLAYING,
+            "Set to PLAYING"
+        );
     });
 
-    it.skip("has a correctAnswer that takes an Answer enum and determines the correct answer", () => {
-        // CODE
-    });
+    it("has a `isGameFinished` method that determines if the game is over", async () => {
+        await gameSession.fetchQuestions(20, Difficulty.Medium);
 
-    it.skip("has a `isGameFinished` method that determines if the game is over", () => {
-        // CODE
+        assert.isFalse(gameSession.isGameFinished(), "Game is not finished");
+
+        gameSession.nextQuestion();
+        gameSession.nextQuestion();
+        assert.isTrue(gameSession.isGameFinished(), "Game is finished");
     });
 });
