@@ -1,7 +1,7 @@
 import { Answer } from "../../../enums";
 
 export default class Player {
-    readonly id: number;
+    public readonly id: number;
 
     public displayName: string;
     public ready: boolean;

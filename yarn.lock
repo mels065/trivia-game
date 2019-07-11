@@ -418,6 +418,11 @@
   resolved "https://registry.yarnpkg.com/@types/shortid/-/shortid-0.0.29.tgz#8093ee0416a6e2bf2aa6338109114b3fbffa0e9b"
   integrity sha1-gJPuBBam4r8qpjOBCRFLP7/6Dps=
 
+"@types/sinon@^7.0.13":
+  version "7.0.13"
+  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-7.0.13.tgz#ca039c23a9e27ebea53e0901ef928ea2a1a6d313"
+  integrity sha512-d7c/C/+H/knZ3L8/cxhicHUiTDxdgap0b/aNJfsmLwFu/iOP17mdgbQsbHA3SJmrzsjD0l3UEE5SN4xxuz5ung==
+
 "@types/socket.io-client@^1.4.32":
   version "1.4.32"
   resolved "https://registry.yarnpkg.com/@types/socket.io-client/-/socket.io-client-1.4.32.tgz#988a65a0386c274b1c22a55377fab6a30789ac14"
@@ -7128,6 +7133,11 @@ trim-right@^1.0.1:
   integrity sha512-m6s2OdQe5wgpFMC+pAJ+q9djG82O2jcHPOI6RNg1yy9rCYR+WD6Nbpl32fDpfC56nirdRy+opFa/Vk7HYhqaew==
   dependencies:
     glob "^7.1.2"
+
+ts-mock-imports@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/ts-mock-imports/-/ts-mock-imports-1.2.6.tgz#5a98a398c3eadb7f75b6904984bb0ba5f3fbb912"
+  integrity sha512-rZjsIEBWx9a3RGUo4Rhj/hzEGB4GPWJx46fls9EJf4UBsf5SxS2qiozf6dQp0Ym/9LC5MArlXZbZ+93wJzAmjA==
 
 ts-mockito@^2.3.1:
   version "2.3.1"

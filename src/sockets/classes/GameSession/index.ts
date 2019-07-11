@@ -67,8 +67,9 @@ export default class GameSession {
         }));
     }
 
-    public addPlayer(player: Player): void {
+    public addPlayer(name: string): void {
         // Remember, appended `++` increments after assignment
+        const player = new Player(this.totalPlayersJoined, name);
         this.players[this.totalPlayersJoined++] = player;
     }
 
