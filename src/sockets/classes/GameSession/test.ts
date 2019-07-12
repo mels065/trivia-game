@@ -61,10 +61,10 @@ describe("GameSession class", () => {
     it("has an object of players that can join or leave, and deletes session if no players", () => {
         expect(Object.keys(gameSession.players).length).to.equal(0);
 
-        gameSession.addPlayer("John Doe");
+        expect(gameSession.addPlayer("John Doe")).to.equal(0);
         expect(Object.keys(gameSession.players).length).to.equal(1);
 
-        gameSession.addPlayer("Jane Doe");
+        expect(gameSession.addPlayer("Jane Doe")).to.equal(1);
         expect(Object.keys(gameSession.players).length).to.equal(2);
 
         gameSession.removePlayer(0);

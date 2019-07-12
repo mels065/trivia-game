@@ -22,17 +22,24 @@ export default class GameSession {
     private mode: GameMode;
     private totalPlayersJoined: number;
     private questionIndex: number;
+    private timer: NodeJS.Timeout;
 
     constructor() {
         this.id = shortid();
         GameSession.sessions[this.id] = this;
 
-        this.players = [];
+        this.players = {};
         this.questions = [];
 
         this.mode = GameMode.LOBBY;
         this.totalPlayersJoined = 0;
         this.questionIndex = 0;
+
+        this.timer = setInterval(() => {
+            if (Object.keys(this.players).length === 0) {
+                this.destroy();
+            }
+        }, 1000 * 60 * 60);
     }
 
     public async fetchQuestions(questionCount: number, difficulty: Difficulty): Promise<void> {
@@ -67,10 +74,11 @@ export default class GameSession {
         }));
     }
 
-    public addPlayer(name: string): void {
+    public addPlayer(name: string): number {
         // Remember, appended `++` increments after assignment
         const player = new Player(this.totalPlayersJoined, name);
-        this.players[this.totalPlayersJoined++] = player;
+        this.players[this.totalPlayersJoined] = player;
+        return this.totalPlayersJoined++;
     }
 
     public removePlayer(id: number) {
@@ -101,6 +109,7 @@ export default class GameSession {
     }
 
     public destroy(): void {
+        clearInterval(this.timer);
         delete GameSession.sessions[this.id];
     }
 }
