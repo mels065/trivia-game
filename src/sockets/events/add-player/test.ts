@@ -5,6 +5,8 @@ import GameSession from "../../classes/GameSession";
 
 import socketMock from "../test-utils/socket-mock";
 
+import { SocketEvents } from "../../../enums";
+
 import addPlayerEventCreator from "./index";
 
 describe("addPlayer socket event creator", () => {
@@ -52,7 +54,7 @@ describe("addPlayer socket event creator", () => {
             socketMock.emitCalledWith,
             [
                 [
-                    "sendPlayerId",
+                    SocketEvents.SEND_PLAYER_ID,
                     [{
                         playerId: 0,
                     }],
@@ -70,7 +72,7 @@ describe("addPlayer socket event creator", () => {
             socketMock.inRoomMock.emitCalledWith,
             [
                 [
-                    "updatePlayerList",
+                    SocketEvents.UPDATE_PLAYER_LIST,
                     [{
                         playerList: Object.values(gs.players).map((player) => (
                             player.displayName

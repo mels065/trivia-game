@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 
-import { Difficulty } from "../../../enums";
+import { Difficulty, SocketEvents } from "../../../enums";
 
 import GameSession from "../../classes/GameSession";
 
@@ -13,7 +13,7 @@ const createGameEventCreator = (socket: Socket | any) => (
         const { questionCount, difficulty } = payload;
         const gs = new GameSession();
         await gs.fetchQuestions(questionCount, difficulty);
-        socket.emit("joining", { sessionId: gs.id });
+        socket.emit(SocketEvents.JOINING, { sessionId: gs.id });
     }
 );
 

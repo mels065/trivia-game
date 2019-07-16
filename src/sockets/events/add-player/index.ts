@@ -1,5 +1,7 @@
 import { Socket } from "socket.io";
 
+import { SocketEvents } from "../../../enums";
+
 import GameSession from "../../classes/GameSession";
 
 interface IAddPlayerEventPayload {
@@ -12,9 +14,9 @@ const addPlayerEventCreator = (socket: Socket | any) => (
         const gs = GameSession.sessions[sessionId];
         const playerId = gs.addPlayer(name);
         socket.join(sessionId);
-        socket.emit("sendPlayerId", { playerId });
+        socket.emit(SocketEvents.SEND_PLAYER_ID, { playerId });
         socket.in(sessionId).emit(
-            "updatePlayerList",
+            SocketEvents.UPDATE_PLAYER_LIST,
             {
                 playerList: Object.values(gs.players).map((player) => (
                     player.displayName

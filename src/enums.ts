@@ -16,3 +16,19 @@ export enum GameMode {
     PLAYING = "PLAYING",
     RESULTS = "RESULTS",
 }
+
+export enum SocketEvents {
+    CREATE_GAME = "createGame",
+    JOINING = "joining",
+    ADD_PLAYER = "addPlayer",
+    CHANGE_NAME = "changeName",
+    SEND_PLAYER_ID = "sendPlayerId",
+    UPDATE_PLAYER_LIST = "updatePlayerList",
+    READY = "read",
+    NEXT_QUESTION = "nextQuestion",
+    SEND_ANSWER = "sendAnswer",
+    UPDATE_TIMER = "updateTimer",
+    SHOW_ANSWER = "showAnswer",
+    UPDATE_SCORE = "updateScore",
+    RESULTS = "results",
+}

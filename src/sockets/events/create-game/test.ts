@@ -4,7 +4,7 @@ import { SinonMock } from "sinon";
 
 import GameSession from "../../classes/GameSession";
 
-import { Difficulty } from "../../../enums";
+import { Difficulty, SocketEvents } from "../../../enums";
 import socketMock from "../test-utils/socket-mock";
 
 import createGameEventCreator from "./index";
