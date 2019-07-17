@@ -12,9 +12,8 @@ const addPlayerEventCreator = (socket: Socket | any) => (
     (payload: IAddPlayerEventPayload) => {
         const { name, sessionId } = payload;
         const gs = GameSession.sessions[sessionId];
-        const playerId = gs.addPlayer(name);
+        gs.addPlayer(socket.id, name);
         socket.join(sessionId);
-        socket.emit(SocketEvents.SEND_PLAYER_ID, { playerId });
         socket.in(sessionId).emit(
             SocketEvents.UPDATE_PLAYER_LIST,
             {

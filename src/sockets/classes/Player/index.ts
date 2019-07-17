@@ -1,7 +1,7 @@
 import { Answer } from "../../../enums";
 
 export default class Player {
-    public readonly id: number;
+    public readonly id: string;
 
     public displayName: string;
     public ready: boolean;
@@ -9,7 +9,7 @@ export default class Player {
 
     private score: number;
 
-    constructor(id: number, displayName: string) {
+    constructor(id: string, displayName: string) {
         this.id = id;
 
         this.displayName = displayName;

@@ -22,7 +22,6 @@ export enum SocketEvents {
     JOINING = "joining",
     ADD_PLAYER = "addPlayer",
     CHANGE_NAME = "changeName",
-    SEND_PLAYER_ID = "sendPlayerId",
     UPDATE_PLAYER_LIST = "updatePlayerList",
     READY = "read",
     NEXT_QUESTION = "nextQuestion",

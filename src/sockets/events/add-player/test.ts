@@ -17,9 +17,8 @@ describe("addPlayer socket event creator", () => {
     beforeEach(() => {
         gs = new GameSession();
         addPlayerStub = sinon.stub(GameSession.prototype, "addPlayer");
-        addPlayerStub.callsFake(function (name) {
-            this.players[0] = { displayName: name };
-            return 0;
+        addPlayerStub.callsFake(function (id, displayName) {
+            this.players[id] = { id, displayName };
         });
         (
             addPlayerEventCreator(socketMock)
@@ -39,27 +38,13 @@ describe("addPlayer socket event creator", () => {
     });
 
     it("adds a new player to game session", () => {
-        sinon.assert.calledWith(addPlayerStub, name);
+        sinon.assert.calledWith(addPlayerStub, socketMock.id, name);
     });
 
     it("adds socket to the game session room", () => {
         assert.deepEqual(
             socketMock.joinCalledWith,
             [Object.keys(GameSession.sessions)[0]],
-        );
-    });
-
-    it("emits the `playerId` with `sendPlayerId` to the player", () => {
-        assert.deepEqual(
-            socketMock.emitCalledWith,
-            [
-                [
-                    SocketEvents.SEND_PLAYER_ID,
-                    [{
-                        playerId: 0,
-                    }],
-                ]
-            ]
         );
     });
 

@@ -13,6 +13,7 @@ class RoomMock {
 }
 
 interface ISocketMock {
+    id: string;
     inRoomMock: RoomMock;
     toRoomMock: RoomMock;
     emitCalledWith: any[];
@@ -26,6 +27,7 @@ interface ISocketMock {
 
 const socketMock: ISocketMock = {
     emitCalledWith: [],
+    id: "abcde",
     inRoomMock: new RoomMock(),
     joinCalledWith: [],
     toRoomMock: new RoomMock(),

@@ -13,7 +13,7 @@ export default class GameSession {
 
     public readonly id: string;
     public readonly players: {
-        [key: number]: Player,
+        [key: string]: Player,
     };
     public readonly questions: IQuestionData[];
 
@@ -74,14 +74,13 @@ export default class GameSession {
         }));
     }
 
-    public addPlayer(name: string): number {
+    public addPlayer(id: string, name: string): void {
         // Remember, appended `++` increments after assignment
-        const player = new Player(this.totalPlayersJoined, name);
-        this.players[this.totalPlayersJoined] = player;
-        return this.totalPlayersJoined++;
+        const player = new Player(id, name);
+        this.players[id] = player;
     }
 
-    public removePlayer(id: number) {
+    public removePlayer(id: string) {
         delete this.players[id];
         if (Object.keys(this.players).length === 0) {
             this.destroy();

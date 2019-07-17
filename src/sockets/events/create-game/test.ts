@@ -45,7 +45,7 @@ describe("createGame socket event", () => {
             socketMock.emitCalledWith,
             [
                 [
-                    "joining",
+                    SocketEvents.JOINING,
                     [{
                         sessionId: Object.keys(GameSession.sessions)[0],
                     }],

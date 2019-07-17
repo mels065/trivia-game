@@ -6,11 +6,11 @@ import { Answer } from "../../../enums";
 import Player from "./index";
 
 describe("PlayerClass", () => {
-    const id = 0;
+    const id = "abcde";
     const displayName = "John Doe";
     let player: Player;
     beforeEach(() => {
-        player = new Player(id, displayName);
+        player = new Player("abcde", displayName);
     });
 
     it("has a public `displayName`", () => {
