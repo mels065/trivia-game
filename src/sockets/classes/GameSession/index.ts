@@ -95,6 +95,10 @@ export default class GameSession {
         this.mode = newMode;
     }
 
+    public playersReady(): boolean {
+        return Object.values(this.players).every((player) => player.ready);
+    }
+
     public nextQuestion(): (IQuestionData | null) {
         if (!this.isGameFinished()) {
             return this.questions[this.questionIndex++];

@@ -137,4 +137,21 @@ describe("GameSession class", () => {
         gameSession.nextQuestion();
         assert.isTrue(gameSession.isGameFinished(), "Game is finished");
     });
+
+    it("can check if all players are ready", () => {
+        gameSession.addPlayer("abcde", "John Smith");
+        gameSession.addPlayer("xyz", "Bill Gates");
+
+        assert.isFalse(
+            gameSession.playersReady(),
+            "Players are not ready",
+        );
+
+        gameSession.players.abcde.ready = true;
+        gameSession.players.xyz.ready = true;
+        assert.isTrue(
+            gameSession.playersReady(),
+            "Players are ready",
+        );
+    })
 });

@@ -8,7 +8,6 @@ import GameSession from "../../classes/GameSession";
 import Player from "../../classes/Player";
 
 import changeNameEventCreator from "./index";
-import { Socket } from "dgram";
 
 
 describe("changeName socket event", () => {
@@ -50,7 +49,7 @@ describe("changeName socket event", () => {
                 [{
                     newName: "Jane Doe",
                     playerId: socketMock.id,
-                }]
+                }],
             ]
         );
     });
