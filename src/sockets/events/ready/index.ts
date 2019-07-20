@@ -14,12 +14,7 @@ const readyEventCreator = (socket: SocketIO.Socket | any) => (
 
         if (gs.playersReady()) {
             socket.in(sessionId).emit(SocketEvents.START_GAME);
-            socket.in(sessionId).emit(
-                SocketEvents.NEXT_QUESTION,
-                {
-                    questionData: gs.nextQuestion(),
-                },
-            );
+            socket.in(sessionId).emit(SocketEvents.NEXT_TURN);
         }
     }
 );

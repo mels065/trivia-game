@@ -73,10 +73,10 @@ describe("ready socket event", () => {
         assert.deepEqual(
             socketMock.inRoomMock.emitCalledWith[1],
             [
-                SocketEvents.NEXT_QUESTION,
-                [{ questionData: "Question data" }],
+                SocketEvents.NEXT_TURN,
+                [],
             ],
-            "nextQuestion emitted",
+            "nextTurn emitted",
         );
     });
 })

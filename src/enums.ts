@@ -26,6 +26,7 @@ export enum SocketEvents {
     UPDATE_PLAYER_LIST = "updatePlayerList",
     READY = "ready",
     START_GAME = "startGame",
+    NEXT_TURN = "nextTurn",
     NEXT_QUESTION = "nextQuestion",
     SEND_ANSWER = "sendAnswer",
     UPDATE_TIMER = "updateTimer",
