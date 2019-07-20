@@ -1,9 +1,10 @@
 import axios from "axios";
 import * as _ from "lodash";
 import * as shortid from "shortid";
+import { Socket } from "socket.io";
 import Player from "../Player";
 
-import { Answer, Difficulty, GameMode } from "../../../enums";
+import { Answer, Difficulty, GameMode, SocketEvents } from "../../../enums";
 import { IQuestionData, IQuestionOrder, IQuestionJSON } from "../../../interface";
 
 export default class GameSession {
@@ -22,7 +23,7 @@ export default class GameSession {
     private mode: GameMode;
     private totalPlayersJoined: number;
     private questionIndex: number;
-    private timer: NodeJS.Timeout;
+    private killTimer: NodeJS.Timeout;
 
     constructor() {
         this.id = shortid();
@@ -35,7 +36,7 @@ export default class GameSession {
         this.totalPlayersJoined = 0;
         this.questionIndex = 0;
 
-        this.timer = setInterval(() => {
+        this.killTimer = setInterval(() => {
             if (Object.keys(this.players).length === 0) {
                 this.destroy();
             }
@@ -111,8 +112,51 @@ export default class GameSession {
         return this.questionIndex >= this.questions.length;
     }
 
+    public turn(socket: Socket | any): void {
+        // let timeLeft = 20; // in seconds
+        // let countdownTimer: NodeJS.Timeout;
+        // if (!this.isGameFinished()) {
+        //     socket.in(this.id).emit(
+        //         SocketEvents.NEXT_QUESTION,
+        //         { questionData: this.nextQuestion() },
+        //     );
+        //     countdownTimer = setInterval(() => {
+        //         if (timeLeft > 0) {
+        //             socket.in(this.id).emit(
+        //                 SocketEvents.UPDATE_TIMER,
+        //                 { timeLeft },
+        //             );
+        //             timeLeft--;
+        //         } else {
+        //             clearInterval(countdownTimer);
+        //             socket.in(this.id).emit(
+        //                 SocketEvents.SHOW_ANSWER,
+        //                 this.questions[this.questionIndex].correctAnswer,
+        //             );
+        //             setTimeout(this.turn.bind(this, socket), 5000);
+        //         }
+        //     }, 1000);
+        // } else {
+        //     socket.in(this.id).emit(
+        //         SocketEvents.RESULTS,
+        //         {
+        //             results: Object.values(this.players).map(
+        //                 (player) => (
+        //                     {
+        //                         displayName: player.displayName,
+        //                         score: player.getScore(),
+        //                     }
+        //                 )
+        //             ).sort(
+        //                 (player1, player2) => player1.score - player2.score,
+        //             ),
+        //         },
+        //     );
+        // }
+    }
+
     public destroy(): void {
-        clearInterval(this.timer);
+        clearInterval(this.killTimer);
         delete GameSession.sessions[this.id];
     }
 }

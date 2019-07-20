@@ -2,7 +2,11 @@ import axios, { AxiosStatic } from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { assert, expect } from "chai";
 import * as shortid from "shortid";
+import * as sinon from "sinon";
+import { SinonFakeTimers } from "sinon";
 import { mock, reset, verify, when } from "ts-mockito";
+
+import socketMock from "../../events/test-utils/socket-mock";
 
 import Player from "../Player";
 import GameSession from "./index";
@@ -153,5 +157,60 @@ describe("GameSession class", () => {
             gameSession.playersReady(),
             "Players are ready",
         );
-    })
+    });
+
+    describe("turn method", () => {
+        let clock: SinonFakeTimers;
+        beforeEach(() => {
+            clock = sinon.useFakeTimers();
+        });
+
+        afterEach(() => {
+            clock.restore();
+        });
+
+        context("if the game is not finished", () => {
+            let isGameFinishedStub: sinon.SinonStub;
+            beforeEach(() => {
+                isGameFinishedStub = sinon.stub(gameSession, "isGameFinished");
+                isGameFinishedStub.returns(true);
+            });
+
+            afterEach(() => {
+                isGameFinishedStub.restore();
+            });
+
+            it.skip("emits nextQuestion socket event", () => {
+                // CODE
+            });
+
+            it.skip("emits updateTimer socket event 20 times", () => {
+                // CODE
+            });
+
+            it.skip("emits showAnswer socket event after countdown expires", () => {
+                // CODE
+            });
+
+            it.skip("call turn method again after countdown", () => {
+                // CODE
+            });
+        });
+
+        context("if the game is finished", () => {
+            let isGameFinishedStub: sinon.SinonStub;
+            beforeEach(() => {
+                isGameFinishedStub = sinon.stub(gameSession, "isGameFinished");
+                isGameFinishedStub.returns(false);
+            });
+
+            afterEach(() => {
+                isGameFinishedStub.restore();
+            });
+
+            it.skip("emits results socket event", () => {
+                // CODE
+            })
+        });
+    });
 });

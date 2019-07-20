@@ -5,8 +5,9 @@ import GameSession from "../../classes/GameSession";
 
 import socketMock from "../test-utils/socket-mock";
 
-import readyEventCreator from "./index";
 import { SocketEvents } from "../../../enums";
+
+import readyEventCreator from "./index";
 
 describe("ready socket event", () => {
     let gs: GameSession;
@@ -49,7 +50,6 @@ describe("ready socket event", () => {
             [],
             "No emission if no players are ready",
         );
-
 
         gs.players.xyz.ready = true;
 
